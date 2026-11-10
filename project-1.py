@@ -26,7 +26,6 @@ def borrow_book(books_list, book_id)->bool:
             book_to_borrow = validate_book_to_borrow(book)
             book_to_borrow["available"] = False
             return True
-    return False
     raise ValueError(f"book not exist")
 
 def return_book(books_list, book_id)->bool:
@@ -35,7 +34,6 @@ def return_book(books_list, book_id)->bool:
             book_to_return = validate_book_to_return(book)
             book["available"] = True
             return True
-    return False
     raise ValueError(f"book already returned")
 
 def get_available_books(books_list)->list:
