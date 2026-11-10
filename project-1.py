@@ -24,7 +24,7 @@ def borrow_book(books_list, book_id)->bool:
     for book in books_list:
         if book_id == book["id"]:
             book_to_borrow = validate_book_to_borrow(book)
-            book_to_borrow["available"] == False
+            book_to_borrow["available"] = False
             return True
     return False
     raise ValueError(f"book not exist")
@@ -33,7 +33,7 @@ def return_book(books_list, book_id)->bool:
     for book in books_list:
         if book["id"] == book_id:
             book_to_return = validate_book_to_return(book)
-            book["available"] == True
+            book["available"] = True
             return True
     return False
     raise ValueError(f"book already returned")
@@ -45,7 +45,7 @@ def get_available_books(books_list)->list:
             available_books.append(book)
     return available_books 
 
-def display_books(books_list):
+def display_available_books(books_list):
     print(get_available_books(books_list))     
 
 def get_books_by_author(books_list, author)->list:
@@ -54,9 +54,6 @@ def get_books_by_author(books_list, author)->list:
         if book["author"] == author:
             author_books.append(book)
     return author_books
-
-def display_books_by_author(books_list, author):
-    print(get_books_by_author(books_list, author))
 
 def get_next_book_id(books_list)->int:
     book = max(books_list, key=lambda b:b["id"])
@@ -67,7 +64,7 @@ def get_next_book_id(books_list)->int:
 def get_book_to_add()->tuple:
     name = get_book_name()
     author = get_book_author()
-    validate_book_and_author(name, author)
+    validate_book_and_author(books_list, name, author)
     year = input("book year: ").strip()
     validate_integer(year)
     return name, author, year
@@ -113,7 +110,7 @@ def validate_integer(val):
         if int_val <= 0:
             raise ValueError("must be positive")
 
-def validate_book_and_author(name, author):
+def validate_book_and_author(books_list, name, author):
     if not name or not author:
         raise ValueError(f"name or author cannot be empty!")
     for book in books_list:
@@ -127,7 +124,7 @@ def validate_book_to_borrow(book):
 
 def validate_book_to_return(book):
     if book["available"]:
-        raise ValueError(f"book already borrowed")
+        raise ValueError(f"book already returned")
     return book
 
 """main"""
@@ -165,7 +162,8 @@ def main():
             except ValueError as e:
                 print(f"Error: {e}")
         elif user_choice == "6":
-            display_books(books_list)
+            available_books = get_available_books(books_list)
+            display_books(available_books)
         elif user_choice == "7":
             try:
                 author = get_book_author()
