@@ -59,7 +59,7 @@ def get_next_book_id(books_list)->int:
     return book_id
 
 """get inputs"""
-def get_book_to_add()->tuple:
+def get_book_to_add(books_list)->tuple:
     name = get_book_name()
     author = get_book_author()
     validate_book_and_author(books_list, name, author)
